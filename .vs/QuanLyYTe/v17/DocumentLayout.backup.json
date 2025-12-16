@@ -1,0 +1,62 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\3.1_Ky1_Nam3\\CongNgheXML\\QuanLyYTe\\QuanLyYTe\\QuanLyYTe\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{44A95E35-71CA-4D9D-B874-AC5A3FB54257}|QuanLyYTe\\QuanLyYTe.csproj|d:\\3.1_ky1_nam3\\congnghexml\\quanlyyte\\quanlyyte\\quanlyyte\\quanlyyte\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{44A95E35-71CA-4D9D-B874-AC5A3FB54257}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FormAdmin.cs [Design]",
+              "DocumentMoniker": "D:\\3.1_Ky1_Nam3\\CongNgheXML\\QuanLyYTe\\QuanLyYTe\\QuanLyYTe\\QuanLyYTe\\FormAdmin.cs",
+              "RelativeDocumentMoniker": "QuanLyYTe\\FormAdmin.cs",
+              "ToolTip": "D:\\3.1_Ky1_Nam3\\CongNgheXML\\QuanLyYTe\\QuanLyYTe\\QuanLyYTe\\QuanLyYTe\\FormAdmin.cs [Design]",
+              "RelativeToolTip": "QuanLyYTe\\FormAdmin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T05:08:07.066Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 145,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
