@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace QuanLyYTe
@@ -89,15 +90,22 @@ namespace QuanLyYTe
                 if (ofd.ShowDialog() != DialogResult.OK)
                     return;
 
+                // Đọc toàn bộ DataSet từ XML
                 DataSet ds = new DataSet();
                 ds.ReadXml(ofd.FileName);
                 if (ds.Tables.Count == 0)
                     throw new InvalidOperationException("Không tìm thấy dữ liệu trong file XML.");
 
-                DataTable incoming = ds.Tables[0];
+                // Cố gắng lấy đúng bảng theo tên, nếu không có thì lấy bảng đầu tiên
+                DataTable incoming = ds.Tables.Contains(tableName) ? ds.Tables[tableName] : ds.Tables[0];
+                if (incoming.Rows.Count == 0)
+                    throw new InvalidOperationException("File XML không có bản ghi dữ liệu nào.");
 
-                DialogResult confirm = MessageBox.Show("Toàn bộ dữ liệu bảng sẽ được thay thế. Bạn chắc chắn muốn tiếp tục?",
-                    "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult confirm = MessageBox.Show(
+                    $"Toàn bộ dữ liệu bảng '{tableName}' sẽ được thay thế bằng dữ liệu trong file XML (bảng nguồn: '{incoming.TableName}').\nBạn chắc chắn muốn tiếp tục?",
+                    "Xác nhận",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
                 if (confirm != DialogResult.Yes)
                     return;
 
@@ -109,21 +117,93 @@ namespace QuanLyYTe
                 {
                     try
                     {
-                        using (SqlCommand deleteCmd = new SqlCommand($"DELETE FROM {tableName}", conn, transaction))
+                        // Lấy schema hiện tại của bảng trong SQL để biết danh sách cột và khóa chính
+                        DataTable schemaTable = new DataTable();
+                        using (SqlDataAdapter schemaAdapter = new SqlDataAdapter($"SELECT * FROM {tableName} WHERE 1 = 0", conn))
                         {
-                            deleteCmd.ExecuteNonQuery();
+                            schemaAdapter.SelectCommand.Transaction = transaction;
+                            schemaAdapter.FillSchema(schemaTable, SchemaType.Source);
                         }
 
-                        using (SqlBulkCopy bulk = new SqlBulkCopy(conn, SqlBulkCopyOptions.Default, transaction)
+                        DataColumn[] pkColumns = schemaTable.PrimaryKey;
+                        if (pkColumns == null || pkColumns.Length == 0)
+                            throw new InvalidOperationException($"Bảng '{tableName}' không có khóa chính, không thể nhập XML an toàn.");
+
+                        // Các cột chung giữa XML và bảng SQL
+                        var commonColumns = incoming.Columns
+                            .Cast<DataColumn>()
+                            .Where(c => schemaTable.Columns.Contains(c.ColumnName))
+                            .ToList();
+
+                        if (commonColumns.Count == 0)
+                            throw new InvalidOperationException("Không tìm được cột nào trùng tên giữa file XML và bảng SQL.");
+
+                        // Tách cột để UPDATE (không bao gồm khóa chính)
+                        var pkNames = new HashSet<string>(pkColumns.Select(c => c.ColumnName));
+                        var updateColumns = commonColumns.Where(c => !pkNames.Contains(c.ColumnName)).ToList();
+
+                        foreach (DataRow row in incoming.Rows)
                         {
-                            DestinationTableName = tableName
-                        })
-                        {
-                            foreach (DataColumn column in incoming.Columns)
+                            // Tạo điều kiện WHERE theo khóa chính
+                            string whereClause = string.Join(" AND ",
+                                pkColumns.Select((pk, index) => pk.ColumnName + " = @pk" + index));
+
+                            // Kiểm tra bản ghi đã tồn tại chưa
+                            string checkSql = $"SELECT COUNT(1) FROM {tableName} WHERE {whereClause}";
+                            bool exists;
+                            using (SqlCommand checkCmd = new SqlCommand(checkSql, conn, transaction))
                             {
-                                bulk.ColumnMappings.Add(column.ColumnName, column.ColumnName);
+                                for (int i = 0; i < pkColumns.Length; i++)
+                                {
+                                    object value = row[pkColumns[i].ColumnName] ?? DBNull.Value;
+                                    checkCmd.Parameters.AddWithValue("@pk" + i, value);
+                                }
+                                exists = Convert.ToInt32(checkCmd.ExecuteScalar()) > 0;
                             }
-                            bulk.WriteToServer(incoming);
+
+                            if (exists && updateColumns.Count > 0)
+                            {
+                                // UPDATE các cột không phải khóa chính
+                                string setClause = string.Join(", ",
+                                    updateColumns.Select((col, index) => col.ColumnName + " = @v" + index));
+
+                                string updateSql = $"UPDATE {tableName} SET {setClause} WHERE {whereClause}";
+                                using (SqlCommand updateCmd = new SqlCommand(updateSql, conn, transaction))
+                                {
+                                    for (int i = 0; i < updateColumns.Count; i++)
+                                    {
+                                        object value = row[updateColumns[i].ColumnName] ?? DBNull.Value;
+                                        updateCmd.Parameters.AddWithValue("@v" + i, value);
+                                    }
+
+                                    for (int i = 0; i < pkColumns.Length; i++)
+                                    {
+                                        object value = row[pkColumns[i].ColumnName] ?? DBNull.Value;
+                                        updateCmd.Parameters.AddWithValue("@pk" + i, value);
+                                    }
+
+                                    updateCmd.ExecuteNonQuery();
+                                }
+                            }
+                            else if (!exists)
+                            {
+                                // INSERT bản ghi mới
+                                string columnList = string.Join(", ", commonColumns.Select(c => c.ColumnName));
+                                string paramList = string.Join(", ", commonColumns.Select((c, index) => "@i" + index));
+
+                                string insertSql = $"INSERT INTO {tableName} ({columnList}) VALUES ({paramList})";
+                                using (SqlCommand insertCmd = new SqlCommand(insertSql, conn, transaction))
+                                {
+                                    for (int i = 0; i < commonColumns.Count; i++)
+                                    {
+                                        object value = row[commonColumns[i].ColumnName] ?? DBNull.Value;
+                                        insertCmd.Parameters.AddWithValue("@i" + i, value);
+                                    }
+
+                                    insertCmd.ExecuteNonQuery();
+                                }
+                            }
+                            // Nếu exists nhưng không có cột nào để update thì bỏ qua (giữ nguyên)
                         }
 
                         transaction.Commit();
@@ -140,7 +220,7 @@ namespace QuanLyYTe
                     }
                 }
 
-                MessageBox.Show("Nhập dữ liệu XML vào SQL thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Nhập dữ liệu XML vào SQL thành công (dữ liệu được cập nhật/thêm mới, không xóa bản ghi cũ)!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

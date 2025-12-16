@@ -32,7 +32,6 @@ namespace QuanLyYTe
             this.lblNgayKham = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
             this.dgvPhongKham = new System.Windows.Forms.DataGridView();
-            this.btnThem = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnLamMoi = new System.Windows.Forms.Button();
@@ -185,27 +184,13 @@ namespace QuanLyYTe
             this.dgvPhongKham.TabIndex = 13;
             this.dgvPhongKham.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPhongKham_CellClick);
             // 
-            // btnThem
-            // 
-            this.btnThem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.btnThem.FlatAppearance.BorderSize = 0;
-            this.btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnThem.ForeColor = System.Drawing.Color.White;
-            this.btnThem.Location = new System.Drawing.Point(25, 25);
-            this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(90, 35);
-            this.btnThem.TabIndex = 14;
-            this.btnThem.Text = "Thêm";
-            this.btnThem.UseVisualStyleBackColor = false;
-            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
-            // 
             // btnSua
             // 
             this.btnSua.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
             this.btnSua.FlatAppearance.BorderSize = 0;
             this.btnSua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSua.ForeColor = System.Drawing.Color.White;
-            this.btnSua.Location = new System.Drawing.Point(136, 25);
+            this.btnSua.Location = new System.Drawing.Point(42, 27);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(90, 35);
             this.btnSua.TabIndex = 15;
@@ -219,7 +204,7 @@ namespace QuanLyYTe
             this.btnXoa.FlatAppearance.BorderSize = 0;
             this.btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnXoa.ForeColor = System.Drawing.Color.White;
-            this.btnXoa.Location = new System.Drawing.Point(252, 25);
+            this.btnXoa.Location = new System.Drawing.Point(188, 25);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(90, 35);
             this.btnXoa.TabIndex = 16;
@@ -233,7 +218,7 @@ namespace QuanLyYTe
             this.btnLamMoi.FlatAppearance.BorderSize = 0;
             this.btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLamMoi.ForeColor = System.Drawing.Color.White;
-            this.btnLamMoi.Location = new System.Drawing.Point(375, 25);
+            this.btnLamMoi.Location = new System.Drawing.Point(332, 25);
             this.btnLamMoi.Name = "btnLamMoi";
             this.btnLamMoi.Size = new System.Drawing.Size(90, 35);
             this.btnLamMoi.TabIndex = 17;
@@ -247,7 +232,7 @@ namespace QuanLyYTe
             this.btnTimKiem.FlatAppearance.BorderSize = 0;
             this.btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTimKiem.ForeColor = System.Drawing.Color.White;
-            this.btnTimKiem.Location = new System.Drawing.Point(491, 25);
+            this.btnTimKiem.Location = new System.Drawing.Point(474, 25);
             this.btnTimKiem.Name = "btnTimKiem";
             this.btnTimKiem.Size = new System.Drawing.Size(200, 35);
             this.btnTimKiem.TabIndex = 18;
@@ -261,7 +246,7 @@ namespace QuanLyYTe
             this.btnXuatXSLT.FlatAppearance.BorderSize = 0;
             this.btnXuatXSLT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnXuatXSLT.ForeColor = System.Drawing.Color.White;
-            this.btnXuatXSLT.Location = new System.Drawing.Point(715, 27);
+            this.btnXuatXSLT.Location = new System.Drawing.Point(715, 25);
             this.btnXuatXSLT.Name = "btnXuatXSLT";
             this.btnXuatXSLT.Size = new System.Drawing.Size(157, 35);
             this.btnXuatXSLT.TabIndex = 19;
@@ -373,7 +358,6 @@ namespace QuanLyYTe
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.AliceBlue;
-            this.groupBox2.Controls.Add(this.btnThem);
             this.groupBox2.Controls.Add(this.btnSua);
             this.groupBox2.Controls.Add(this.btnXoa);
             this.groupBox2.Controls.Add(this.btnLamMoi);
@@ -436,7 +420,7 @@ namespace QuanLyYTe
 
         private DataGridView dgvPhongKham;
 
-        private Button btnThem, btnSua, btnXoa, btnLamMoi, btnTimKiem, btnXuatXSLT;
+        private Button btnSua, btnXoa, btnLamMoi, btnTimKiem, btnXuatXSLT;
 
         private GroupBox groupBoxConvert;
         private Label lblConvert, lblArrow;

@@ -115,7 +115,8 @@
                 </tr>
               </thead>
               <tbody>
-                <xsl:for-each select="*[1]">
+                <!-- Bỏ qua nút schema, chỉ lặp qua các dòng dữ liệu -->
+                <xsl:for-each select="*[local-name() != 'schema']">
                   <xsl:variable name="maVatTu" select="*[contains(local-name(), 'Mã') and contains(local-name(), 'vật')] | *[local-name()='MaVatTuYTE']"/>
                   <xsl:variable name="tenVatTu" select="*[contains(local-name(), 'Tên') and contains(local-name(), 'vật')] | *[local-name()='TenVatTuYTE']"/>
                   <xsl:variable name="loaiVatTu" select="*[contains(local-name(), 'Loại')] | *[local-name()='TenLoaiVatTuYTE']"/>

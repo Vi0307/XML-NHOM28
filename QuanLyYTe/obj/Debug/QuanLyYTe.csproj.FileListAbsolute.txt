@@ -65,3 +65,11 @@ D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\QuanLyYTe\QuanLyYTe\bin\Debug\Me
 D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\QuanLyYTe\QuanLyYTe\bin\Debug\Patient.xslt
 D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\QuanLyYTe\QuanLyYTe\bin\Debug\MedicalExamination.xslt
 D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\QuanLyYTe\QuanLyYTe\bin\Debug\MedicalEquipment.xslt
+D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\bin\Debug\Staff.xslt
+D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\bin\Debug\MedicalClinic.xslt
+D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\bin\Debug\Patient.xslt
+D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\bin\Debug\MedicalExamination.xslt
+D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\bin\Debug\MedicalEquipment.xslt
+D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\obj\Debug\QuanLyYTe.FormNhanVien.resources
+D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\obj\Debug\QuanLyYTe.FormQuanLyBenhNhan.resources
+D:\3.1_Ky1_Nam3\CongNgheXML\QuanLyYTe\QuanLyYTe\obj\Debug\QuanLyYTe.FormQuanLyKhamBenh.resources
